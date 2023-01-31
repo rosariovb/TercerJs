@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,6 +10,7 @@
 </head>
 
 <body>
+
     <div class="wrapper">
         <aside>
             <header>
@@ -24,8 +24,8 @@
                     </li>
 
                     <li>
-                        <a classs="boton-menu boton-carrito" href="./cart.html">
-                        <i class="bi bi-cart3"></i> Carrito <span class="number"> 0</span></a>
+                        <a classs="boton-menu boton-carrito active" href="cart.html">
+                        <i class="bi bi-cart3"></i> Carrito 
                     </li>
 
                 </ul>
@@ -37,10 +37,10 @@
         <main>
             <h2 class="titulo-principal">Carrito de compras</h2>
             <div class="contenedor-carrito">
-                <p class="carrito-vacio">Tu carrito esta vacio <i class="bi bi-emoji-frown-fill"></i></p>
+                <p id="carrito-vacio" class="carrito-vacio">Tu carrito esta vacio <i class="bi bi-emoji-frown-fill"></i></p>
 
-                <div class="carrito-productos oculto">
-
+                <div id="carrito-productos" class="carrito-productos oculto">
+<!-- 
                     <div class="carrito-producto">
                         <img class="carrito-produucto-imagen" src="./img/violet.jpg" >
                         <div class="carrito-producto-nombre">
@@ -81,28 +81,29 @@
                             <p>$700</p>
                         </div>
                         <button class="carrito-producto-eliminar"><i class="bi bi-trash3-fill"></i></button>
-                    </div>
+                    </div> -->
+
                 </div>
 
-                <div class="carrito-accion oculto">
+                <div id="carrito-accion" class="carrito-accion oculto">
                     <div class="carrito-accion-izq">
-                        <button class="carrito-accion-vaciar">Vaciar carrito</button>
+                        <button id ="carrito-accion-vaciar" class="carrito-accion-vaciar">Vaciar carrito</button>
                     </div>
                     <div class="carrito-accion-der">
                         <div class="carrito-accion-total">
                             <p>Total:</p>
                             <p id="total">$1300</p>
                         </div>
-                        <button class="carrito-accion-finalizar">Finalizar compra</button>
+                        <button id= "carrito-accion-finalizar" class="carrito-accion-finalizar">Finalizar compra</button>
                     </div>
                 </div>
-                <p class="carrito-comprado oculto">Muchas gracias por tu compra</p>
+                <p id = "carrito-comprado" class="carrito-comprado oculto">Muchas gracias por tu compra</p>
             </div>
         </main>
 
     </div>
 
-    <script src="./stock.js"></script>
+    <script src="carrito.js"></script>
 </body>
 
 </html>

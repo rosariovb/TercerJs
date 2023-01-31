@@ -1,7 +1,8 @@
-const shop = [
+/* PRODUCTOS STOCK */
+const tienda = [
     {
         id: 1,
-        nombre: "Glitter en gel 01",
+        titulo: "Glitter en gel 01",
         descripcion: "Ideal para cualquier tipo de evento evento",
         imagen: "./img/violet.jpg",
         categoria: {
@@ -14,7 +15,7 @@ const shop = [
 
     {
         id: 2,
-        nombre: "Glitter en gel 02",
+        titulo: "Glitter en gel 02",
         descripcion: "Ideal para cualquier tipo de evento evento",
         imagen: "./img/verde.jpg",
         categoria: {
@@ -28,7 +29,7 @@ const shop = [
 
     {
         id: 3,
-        nombre: "Glitter en gel 03",
+        titulo: "Glitter en gel 03",
         descripcion: "Ideal para cualquier tipo de evento evento",
         imagen: "./img/lil.jpeg",
         categoria: {
@@ -41,7 +42,7 @@ const shop = [
 
     {
         id: 4,
-        nombre: "Glitter en gel 04",
+        titulo: "Glitter en gel 04",
         descripcion: "Ideal para peinados",
         imagen: "./img/dorado.jpg",
         categoria: {
@@ -54,12 +55,12 @@ const shop = [
 
     {
         id: 5,
-        nombre: "Combo glitters",
+        titulo: "Combo glitters",
         descripcion: "Ideal para peinados",
         imagen: "./img/combo.jpg",
         categoria: {
-            nombre: "Glitter",
-            id: "Glitter",
+            nombre: "todos",
+            id: "todos",
 
         },
         precio: 1500
@@ -67,12 +68,12 @@ const shop = [
 
     {
         id: 6,
-        nombre: "Glitter en polvo",
+        titulo: "Glitter en polvo",
         descripcion: "Ideal para peinados",
         imagen: "./img/polvo.jpg",
         categoria: {
-            nombre: "Glitter",
-            id: "Glitter",
+            nombre: "todos",
+            id: "todos",
 
         },
         precio: 500
@@ -80,12 +81,12 @@ const shop = [
 
     {
         id: 7,
-        nombre: "Tatuajes",
+        titulo: "Tatuajes",
         descripcion: "Ideal para peinados",
         imagen: "./img/tatoo.jpg",
         categoria: {
-            nombre: "Glitter",
-            id: "Glitter",
+            nombre: "todos",
+            id: "todos",
         },
 
         precio: 400
@@ -93,25 +94,28 @@ const shop = [
 
     {
         id: 8,
-        nombre: "Stickers",
+        titulo: "Stickers",
         descripcion: "Ideal para peinados",
         imagen: "./img/facee.jpg",
         categoria: {
-            nombre: "Glitter",
-            id: "Glitter",
+            nombre: "todos",
+            id: "todos",
 
         },
 
         precio: 300
     },
 
-]
+];
+
+
 
 
 /* DOM */
 
 const contenedorProductos = document.querySelector("#contenedor-productos");
 const botonCategoria = document.querySelectorAll(".boton-categoria");
+const tituloPrincipal = document.querySelector("#titulo-principal");
 let botonesAgregar = document.querySelectorAll(".producto-agregar");
 let number = document.querySelector("#number");
 
@@ -119,11 +123,11 @@ let number = document.querySelector("#number");
 
 
 
-function cargarShop(producto) {
+function cargarTienda(productosElegidos) {
 
     contenedorProductos.innerHTML = "";
 
-    shop.forEach(producto => {
+    tienda.forEach(producto => {
 
         const div = document.createElement("div");
         div.classList.add("producto");
@@ -144,31 +148,37 @@ function cargarShop(producto) {
 
 
     })
-    actualizarBotonesagregar();
+  
 
 }
 
-cargarShop(shop);
+cargarTienda(tienda);
 
 
 botonCategoria.forEach(boton => {
     boton.addEventListener("click", (e) => {
+
         botonCategoria.forEach(boton => boton.classList.remove("active"));
         e.currentTarget.classList.add("active");
-
+        
         if (e.currentTarget.id != "todos") {
-            const productoCategoria = shop.find(producto.categoria.id === e.currentTarget.id);
-            const productosBoton = (producto => producto.categoria.id === e.currentTarget.id);
-            cargarShop(productosBoton);
-        } else {
+            const productosCategoria = tienda.find(producto => producto.categoria.id === e.currentTarget.id)
+            tituloPrincipal.innerText = productosCategoria.categoria.nombre;
 
-            cargarShop(shop);
+            const productosBoton = tienda.filter (boton => boton.classList.remove("active"));
+            cargarTienda(productosBoton);
+        } else {
+            tituloPrincipal.innerText = "Bienvenidos a Malcriadas";
+
+            cargarTienda(tienda);
         }
 
 
     });
 
 });
+
+
 
 function actualizarBotonesagregar() {
     botonesAgregar = document.querySelectorAll(".producto-agregar");
@@ -182,30 +192,45 @@ function actualizarBotonesagregar() {
 
 }
 
-const productoEnCarrito = [];
+let productosEnCarrito;
+
+let productosEnCarritoLS = localStorage.getItem("productos-en-carrito");
+
+if(productosEnCarritoLS) {
+    productosEnCarrito =JSON.parse(productosEnCarritoLS);
+    actualizarNumber();
+
+} else {
+  productosEnCarrito=[];
+
+}
+
 
 function agregarAlCarrito(e) {
 
     const idBoton = e.currentTarget.id;
-    let productoAgregado = shop.find(producto => producto.id === idBoton);
+    let productoAgregado = tienda.find(producto => producto.id === idBoton);
 
-    if (productoEnCarrito.some(producto => producto.id === idBoton)) {
-        const index = productoEnCarrito.findIndex(producto => producto.id === idBoton);
-        productoEnCarrito[index].cantidad++;
+    if (productosEnCarrito.some(producto => producto.id === idBoton)) {
+        const index = productosEnCarrito.findIndex(producto => producto.id === idBoton);
+        productosEnCarrito[index].cantidad++;
 
     } else {
         productoAgregado = cantidad = 1;
-        productoEnCarrito.push(productoAgregado);
+        productosEnCarrito.push(productoAgregado);
 
 
     }
-    actualizarNumber()
+    actualizarNumber();
+    localStorage.setItem("productos-en-carrito",JSON.stringify(productosEnCarrito))
 }
 
 function actualizarNumber() {
-    let number = productoEnCarrito.reduce((acc, producto) => acc + producto.cantidad, 0);
+    let nuevoNumber = productosEnCarrito.reduce((acc, producto) => acc + producto.cantidad, 0);
     number.innerText = nuevoNumber;
 }
+
+
 
 
 
