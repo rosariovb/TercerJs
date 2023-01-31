@@ -1,4 +1,5 @@
-let productosEnCarrito = JSON.parse(localStorage.getItem("productos-en-carrito"));
+let productosEnCarrito = localStorage.getItem("productos-en-carrito");
+productosEnCarrito =JSON.parse(productosEnCarrito)
 
 const contenedorVacio = document.querySelector("#carrito-vacio");
 const contenedorProductos = document.querySelector("#carrito-productos");
@@ -24,9 +25,9 @@ function cargarProductosCarrito() {
             div.classList.add("carrito-producto");
             div.innerHTML = `
             <img class="carrito-produucto-imagen" src="${producto.imagen}" >
-            <div class="carrito-producto-nombre">
+            <div class="carrito-producto-titulo">
                 <small>Productos</small>
-                <h3>${producto.nombre}</h3>
+                <h3>${producto.titulo}</h3>
             </div>
             <div class="carrito-producto-cantidad">
                 <small>Cantidad</small>
@@ -66,7 +67,7 @@ function actualizarBotonEliminar() {
     botonEliminar = document.querySelectorAll(".carrito-producto-eliminar");
 
     botonEliminar.forEach(boton => {
-        boton.addEventListener("click", elimnarDelCarrito);
+        boton.addEventListener("click", eliminarDelCarrito);
     });
 
 }
@@ -78,7 +79,7 @@ function eliminarDelCarrito() {
     productosEnCarrito.splice(index, 1);
     cargarProductosCarrito(); 
 
-    localStorage.setItem("productos-carrito-eliminar", JSON.stringify(productosEnCarrito));
+    localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
 }
 
 botonVaciar.addEventListener("click", vaciarCarrito);
@@ -91,7 +92,7 @@ function vaciarCarrito() {
 
 function actualizarTotal (){
     const totalCalculado= productosEnCarrito.reduce((acc,producto) => acc + (producto.precio * producto.cantidad), 0);
-    total.innertext = $(totalCalculado) ;
+    total.innertext = `$ ${totalCalculado} ` ;
 }
 
 botonFinalizar.addEventListener("click", finalizarCompra);

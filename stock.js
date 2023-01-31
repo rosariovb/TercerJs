@@ -127,7 +127,7 @@ function cargarTienda(productosElegidos) {
 
     contenedorProductos.innerHTML = "";
 
-    tienda.forEach(producto => {
+    productosElegidos.forEach(producto => {
 
         const div = document.createElement("div");
         div.classList.add("producto");
@@ -135,7 +135,7 @@ function cargarTienda(productosElegidos) {
         div.innerHTML = `
             <img class="producto-imagen" src="${producto.imagen}">
             <div class="producto-detalles">
-              <h3 class="producto-nombre">${producto.nombre}</h3>
+              <h3 class="producto-titulo">${producto.titulo}</h3>
               <p class="producto-precio">$${producto.precio}</p>
                <button class="producto-agregar"id="agregar-${producto.id}">Agregar</button>
             </div>
@@ -144,10 +144,9 @@ function cargarTienda(productosElegidos) {
 
         contenedorProductos.append(div);
 
-
-
-
     })
+
+    actualizarBotonesagregar();
   
 
 }
@@ -162,18 +161,17 @@ botonCategoria.forEach(boton => {
         e.currentTarget.classList.add("active");
         
         if (e.currentTarget.id != "todos") {
-            const productosCategoria = tienda.find(producto => producto.categoria.id === e.currentTarget.id)
+            const productosCategoria = tienda.find(producto => producto.categoria.id === e.currentTarget.id);
             tituloPrincipal.innerText = productosCategoria.categoria.nombre;
-
-            const productosBoton = tienda.filter (boton => boton.classList.remove("active"));
+            const productosBoton = tienda.filter (producto => producto.categoria.id === e.currentTarget.id);
             cargarTienda(productosBoton);
         } else {
             tituloPrincipal.innerText = "Bienvenidos a Malcriadas";
 
             cargarTienda(tienda);
         }
-
-
+       
+       
     });
 
 });
@@ -194,10 +192,10 @@ function actualizarBotonesagregar() {
 
 let productosEnCarrito;
 
-let productosEnCarritoLS = localStorage.getItem("productos-en-carrito");
+let productosEnCarritoLS =  localStorage.getItem("productos-en-carrito");
 
 if(productosEnCarritoLS) {
-    productosEnCarrito =JSON.parse(productosEnCarritoLS);
+    productosEnCarrito = JSON.parse(productosEnCarritoLS);
     actualizarNumber();
 
 } else {
@@ -216,13 +214,14 @@ function agregarAlCarrito(e) {
         productosEnCarrito[index].cantidad++;
 
     } else {
-        productoAgregado = cantidad = 1;
+        productoAgregado.cantidad = 1;
         productosEnCarrito.push(productoAgregado);
 
 
     }
     actualizarNumber();
-    localStorage.setItem("productos-en-carrito",JSON.stringify(productosEnCarrito))
+    
+    localStorage.setItem("productos-en-carrito",JSON.stringify(productosEnCarrito));
 }
 
 function actualizarNumber() {
