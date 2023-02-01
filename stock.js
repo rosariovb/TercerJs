@@ -206,7 +206,7 @@ if(productosEnCarritoLS) {
 
 function agregarAlCarrito(e) {
 
-    const idBoton = e.currentTarget.id;
+    const idBoton = +e.currentTarget.id.split("-")[1];
     let productoAgregado = tienda.find(producto => producto.id === idBoton);
 
     if (productosEnCarrito.some(producto => producto.id === idBoton)) {

@@ -72,8 +72,8 @@ function actualizarBotonEliminar() {
 
 }
 
-function eliminarDelCarrito() {
-    const idBoton = e.currentTarget.id;
+function eliminarDelCarrito(e) {
+    const idBoton = +e.currentTarget.id;
     const index = productosEnCarrito.findIndex(producto => producto.id === idBoton);
 
     productosEnCarrito.splice(index, 1);
@@ -96,7 +96,8 @@ function actualizarTotal (){
 }
 
 botonFinalizar.addEventListener("click", finalizarCompra);
-function finalizarCompra() {
+function finalizarCompra(e) {
+    e.preventDefault();
     productosEnCarrito.length = 0 ;
     localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
 
